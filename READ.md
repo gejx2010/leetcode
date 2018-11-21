@@ -1,3 +1,3 @@
 # For Leetcode coding
-# Author: spgoal
-# Date: Nov. 21st, 2018
+##### Author: spgoal
+##### Date: Nov. 21st, 2018
