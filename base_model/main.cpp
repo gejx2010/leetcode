@@ -2,10 +2,14 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <tuple>
+#include <utility>
 
 using namespace std;
 
-#define PR(x) cout << #x << ": " << x << endl;
+#define mp make_pair
+#define mt make_tuple
+#define PR(x) cout << #x << ": " << (x) << endl;
 #define PRV(x) cout << #x << ": "; for (auto& it: x) cout << it << ' '; cout << endl;
 
 class Solution {
@@ -24,7 +28,14 @@ public:
 
 int main() {
   vector<int> n = {-2,1,-3,4,-1,2,1,-5,4};
-  Solution slt;
-  cout << slt.maxSubArray(n) << endl;
+  tuple<int, int, int> t = mt(1,2,3);
+  int a, b, c;
+  tie(a, b, c) = t;
+  PR(a); PR(b); PR(c);
+  a = 6;
+  get<0>(t) = 6;
+  PR(get<0>(t));
+  PR(get<1>(t));
+  PR(get<2>(t));
   return 0;
 }
