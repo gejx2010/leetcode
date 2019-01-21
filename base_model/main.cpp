@@ -4,7 +4,9 @@
 #include <queue>
 #include <tuple>
 #include <utility>
+#include <cstring>
 #include <set>
+#include <algorithm>
 
 using namespace std;
 
@@ -28,15 +30,8 @@ public:
 };
 
 int main() {
-  vector<int> n = {-2,1,-3,4,-1,2,1,-5,4};
-  tuple<int, int, int> t = mt(1,2,3);
-  int a, b, c;
-  tie(a, b, c) = t;
-  PR(a); PR(b); PR(c);
-  a = 6;
-  get<0>(t) = 6;
-  PR(get<0>(t));
-  PR(get<1>(t));
-  PR(get<2>(t));
+  Solution slt;
+  vector<int> n = {1, 2, 3};
+  PR(slt.maxSubArray(n));
   return 0;
 }
