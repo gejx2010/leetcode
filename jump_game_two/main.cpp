@@ -20,21 +20,23 @@ using namespace std;
 
 class Solution {
 public:
-    int maxSubArray(vector<int>& nums) {
-      if (nums.empty()) return -1;
-      int res = nums[0], sum = 0;
-      for (int i = 0; i < nums.size(); i++) {
-        sum += nums[i];
-        if (sum < 0) sum = 0;
-        else if (res < sum) res = sum;
-      } 
-      return res;
+    int jump_step(vector<int>& nums, int l, int r) {
+      if (nums.size() - 1 <= r) return 0;
+      int mx = r + 1;
+      for (int i = l; i <= r; ++i) {
+        mx = max(i + nums[i], mx);
+      }
+      return jump_step(nums, r + 1, mx) + 1;
+    }
+
+    int jump(vector<int>& nums) {
+      return jump_step(nums, 0, 0);   
     }
 };
 
 int main() {
   Solution slt;
-  vector<int> n = {1, 2, 3};
-  PR(slt.maxSubArray(n));
+  vector<int> n = {2, 3, 1, 1, 4};
+  PR(slt.jump(n));
   return 0;
 }

@@ -12,6 +12,8 @@
 
 using namespace std;
 
+typedef long long ll;
+
 #define mp make_pair
 #define mt make_tuple
 #define pb push_back
@@ -20,21 +22,24 @@ using namespace std;
 
 class Solution {
 public:
-    int maxSubArray(vector<int>& nums) {
-      if (nums.empty()) return -1;
-      int res = nums[0], sum = 0;
-      for (int i = 0; i < nums.size(); i++) {
-        sum += nums[i];
-        if (sum < 0) sum = 0;
-        else if (res < sum) res = sum;
-      } 
-      return res;
+  double myPow(double x, ll n) {
+    if (n == 0) return 1.0f;
+    if (n < 0) return 1.0f / myPow(x, -n);
+    double res = 1.0f;
+    while (n) {
+      if (n & 1) res *= x;
+      x *= x;
+      n >>= 1;
+      PR(n);
     }
+    return res;
+  }
 };
 
 int main() {
   Solution slt;
-  vector<int> n = {1, 2, 3};
-  PR(slt.maxSubArray(n));
+  double x = 1.0f;
+  int n = -2147483647;
+  PR(slt.myPow(x, n));
   return 0;
 }
