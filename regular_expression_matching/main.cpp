@@ -20,55 +20,37 @@ using namespace std;
 
 class Solution {
 public:
-    set<pair<int, int>> mark;
+    vector<vector<int>> tms;
 
     bool isMatch(string s, string p) {
-      mark.clear();
+      tms.clear();
       int sl = s.length(), pl = p.length();
-      stack<pair<int, int>> st;
-      s = "$" + s;
-      p = "$" + p;
-      st.push(mp(1, 1));
-      PR(sl);
-      PR(pl);
-      while (!st.empty()) {
-        auto t = st.top();
-        int l = t.first, r = t.second;
-        if (!mark.count(t)) mark.insert(mp(l, r));
-        else continue;
-        st.pop();
-        PR(l);
-        PR(r);
-        PR(s[l]);
-        PR(p[r]);
-        if (l == sl + 1 && r == pl + 1) return true;
-        if (l <= sl) {
-          if (r <= pl) {
-            if (p[r] == '.') {
-              if (r < pl && p[r + 1] == '*') st.push(mp(l, r + 2));
-              st.push(mp(l + 1, r + 1));
-            } else if (p[r] == '*') {
-              st.push(mp(l - 1, r + 1));
-              st.push(mp(l, r + 1));
-              while (l <= sl && (p[r - 1] == s[l] || p[r - 1] == '.')) st.push(mp(++l, r + 1));
-            } else {
-              if (s[l] == p[r]) st.push(mp(l + 1, r + 1));
-            }
+      for (int i = 0; i <= pl; ++i) {
+        vector<int> v;
+        for (int j = 0; j <= sl; ++j) v.pb(0);
+        tms.pb(v);
+      }
+      tms[0][0] = true;
+      p = '$' + p;
+      s = '$' + s;
+      for (int i = 1; i <= pl; ++i) {
+        for (int j = 0; j <= sl; ++j) {
+          if (p[i] == s[j] || p[i] == '.') {
+            tms[i][j] = (1 <= j && tms[i - 1][j - 1]);
+          } else if (p[i] == '*') {
+            tms[i][j] = ((1 <= j && tms[i - 1][j - 1] || tms[i][j - 1]) && (p[i - 1] == s[j] || p[i - 1] == '.')) ||
+                (tms[i - 2][j]) || (tms[i - 1][j]);
           }
-        } else {
-          if (pl < r) return true;
-          else if (p[r] == '*') st.push(mp(l, r + 1));
-          else if (r < pl && p[r + 1] == '*') st.push(mp(l, r + 2));
         }
       }
-      return false;
+      return tms[pl][sl];
     }
 };
 
 int main() {
   Solution slt;
-  string s = "";
-  string p = ".*";
+  string s = "a";
+  string p = "ac";
   PR(slt.isMatch(s, p));
   return 0;
 }
