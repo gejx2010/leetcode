@@ -20,34 +20,42 @@ using namespace std;
 
 class Solution {
 public:
-  void visit(vector<vector<int>>& matrix, int lr, vecotr<int>& res) {
+  void visit(vector<vector<int>>& matrix, int lr, vector<int>& res) {
     int r = matrix.size();
     int l = matrix[0].size();
-    int ll = l >> 1;
-    if (ll <= lr) return;
-    int rb = lr, lb = lr, cr = rb, cl = lb;
+    if (((min(r, l) - 1) >> 1) < lr) return;
+    int rb = lr, lb = lr;
     // visit top left - down
-    for (int i = rb; i < l - rb - 1; ++i) {
+    for (int i = lb; i < l - lb; ++i) 
       res.pb(matrix[rb][i]);
-    }
-    cl = l - 1 - lr;
+    int cl = l - lb - 1;
     // visit right top - down
-    for (int i = rb; i < r - rb - 1; ++i) {
-      res.pb(matrix[i][lb]);
+    for (int i = rb + 1; i < r - rb; ++i) 
+      res.pb(matrix[i][cl]);
+    int cr = r - rb - 1;
+    if (cr != rb) {
+      for (int i = cl - 1; lb <= i; --i) 
+        res.pb(matrix[cr][i]);
     }
+    if (cl != lb) {
+      for (int i = cr - 1; lr < i; --i) 
+        res.pb(matrix[i][lb]);
+    }
+    visit(matrix, lr + 1, res);
   }
 
-  vector<int> spiralOrder(vector<vecotr<int>>& matrix) {
+  vector<int> spiralOrder(vector<vector<int>>& matrix) {
     vector<int> res;
     if (matrix.size() <= 0) return res;
     // visit outer
     visit(matrix, 0, res);
+    return res;
   }
 };
 
 int main() {
   Solution slt;
-  vector<int> n = {1, 2, 3};
-  PR(slt.maxSubArray(n));
+  vector<vector<int>> n = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+  PRV(slt.spiralOrder(n));
   return 0;
 }
